@@ -29,6 +29,7 @@ void Stat::Initialize(Handle<Object> target) {
 
 void Stat::Callback(EV_P_ ev_stat *watcher, int revents) {
   assert(revents == EV_STAT);
+  if (watcher->attr.st_mtime <= watcher->prev.st_mtime) return;
   Stat *handler = static_cast<Stat*>(watcher->data);
   assert(watcher == &handler->watcher_);
   HandleScope scope;
