@@ -1,5 +1,6 @@
 // Copyright 2009 Ryan Dahl <ry@tinyclouds.org>
 #include <node_stat.h>
+#include <node_stat_object.h>
 
 #include <assert.h>
 #include <string.h>
@@ -29,11 +30,13 @@ void Stat::Initialize(Handle<Object> target) {
 
 void Stat::Callback(EV_P_ ev_stat *watcher, int revents) {
   assert(revents == EV_STAT);
-  if (watcher->attr.st_mtime <= watcher->prev.st_mtime) return;
   Stat *handler = static_cast<Stat*>(watcher->data);
   assert(watcher == &handler->watcher_);
   HandleScope scope;
-  handler->Emit("change", 0, NULL);
+  Handle<Value> args [2];
+  args[0] = Handle<Value>(BuildStatsObject(&watcher->attr));
+  args[1] = Handle<Value>(BuildStatsObject(&watcher->prev));
+  handler->Emit("change", 2, args);
 }
 
 
