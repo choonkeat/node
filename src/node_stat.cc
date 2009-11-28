@@ -1,6 +1,5 @@
 // Copyright 2009 Ryan Dahl <ry@tinyclouds.org>
 #include <node_stat.h>
-#include <node_stat_object.h>
 
 #include <assert.h>
 #include <string.h>
@@ -34,8 +33,8 @@ void Stat::Callback(EV_P_ ev_stat *watcher, int revents) {
   assert(watcher == &handler->watcher_);
   HandleScope scope;
   Handle<Value> args [2];
-  args[0] = Handle<Value>(BuildStatsObject(&watcher->attr));
-  args[1] = Handle<Value>(BuildStatsObject(&watcher->prev));
+  args[0] = Handle<Value>(BuildStatsObject(&constructor_template, &watcher->attr));
+  args[1] = Handle<Value>(BuildStatsObject(&constructor_template, &watcher->prev));
   handler->Emit("change", 2, args);
 }
 

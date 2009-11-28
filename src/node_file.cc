@@ -1,6 +1,5 @@
 // Copyright 2009 Ryan Dahl <ry@tinyclouds.org>
 #include <node_file.h>
-#include <node_stat_object.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -94,7 +93,7 @@ int EIOPromise::After(eio_req *req) {
     {
       ev_statdata *s = reinterpret_cast<ev_statdata*>(req->ptr2);
       argc = 1;
-      argv[0] = BuildStatsObject(s);
+      argv[0] = BuildStatsObject(&stats_constructor_template, s);
       break;
     }
 

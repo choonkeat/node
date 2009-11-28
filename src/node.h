@@ -51,6 +51,7 @@ ssize_t DecodeWrite(char *buf,
                     v8::Handle<v8::Value>,
                     enum encoding encoding = BINARY);
 
+v8::Local<v8::Object> BuildStatsObject(v8::Persistent<v8::FunctionTemplate> *, ev_statdata *);
 
 }  // namespace node
 #endif  // SRC_NODE_H_
