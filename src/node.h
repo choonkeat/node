@@ -6,6 +6,8 @@
 #include <eio.h>
 #include <v8.h>
 #include <evcom.h>
+#include <sys/types.h> /* struct stat */
+#include <sys/stat.h>
 
 #include <node_object_wrap.h>
 
@@ -51,7 +53,8 @@ ssize_t DecodeWrite(char *buf,
                     v8::Handle<v8::Value>,
                     enum encoding encoding = BINARY);
 
-v8::Local<v8::Object> BuildStatsObject(v8::Persistent<v8::FunctionTemplate> *, ev_statdata *);
+v8::Local<v8::Object> BuildStatsObject(struct stat * s);
+
 
 }  // namespace node
 #endif  // SRC_NODE_H_

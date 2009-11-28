@@ -13,7 +13,7 @@ namespace node {
 
 using namespace v8;
 
-#define BAD_ARGUMENTS      Exception::TypeError(String::New("Bad argument"))
+#define BAD_ARGUMENTS Exception::TypeError(String::New("Bad argument"))
 
 void EIOPromise::Attach(void) {
   ev_ref(EV_DEFAULT_UC);
@@ -45,7 +45,6 @@ EIOPromise* EIOPromise::Create() {
   return ObjectWrap::Unwrap<EIOPromise>(handle);
 }
 
-static Persistent<FunctionTemplate> stats_constructor_template;
 
 int EIOPromise::After(eio_req *req) {
   HandleScope scope;
@@ -326,11 +325,6 @@ void File::Initialize(Handle<Object> target) {
   NODE_SET_METHOD(target, "stat", Stat);
   NODE_SET_METHOD(target, "unlink", Unlink);
   NODE_SET_METHOD(target, "write", Write);
-
-  Local<FunctionTemplate> t = FunctionTemplate::New();
-  stats_constructor_template = Persistent<FunctionTemplate>::New(t);
-  target->Set(String::NewSymbol("Stats"),
-      stats_constructor_template->GetFunction());
 
 
   Local<FunctionTemplate> t2 = FunctionTemplate::New(EIOPromise::New);
