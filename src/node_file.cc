@@ -90,9 +90,9 @@ int EIOPromise::After(eio_req *req) {
 
     case EIO_STAT:
     {
-      ev_statdata *s = reinterpret_cast<ev_statdata*>(req->ptr2);
+      struct stat *s = reinterpret_cast<struct stat*>(req->ptr2);
       argc = 1;
-      argv[0] = BuildStatsObject(&stats_constructor_template, s);
+      argv[0] = BuildStatsObject(s);
       break;
     }
 
